@@ -10,32 +10,31 @@ export default function InGame() {
         var randomMove = Math.floor(Math.random() * 3);
         switch (randomMove) {
             case 0: // Paper
+                setopponentMove(require('./../assets/paper.png'))
                 if (yourMove == 2) {
                     setScore({yourScore: score.yourScore + 1, opponentScore: score.opponentScore})
                 }
                 else if (yourMove == 1) {
                     setScore({yourScore: score.yourScore, opponentScore: score.opponentScore + 1})
                 }
-                else
-                setopponentMove(require('./../assets/paper.png'))
                 break;
             case 1: // Rock
+                setopponentMove(require('./../assets/rock.png'))
                 if (yourMove == 0) {
                     setScore({yourScore: score.yourScore + 1, opponentScore: score.opponentScore})
                 }
                 else if (yourMove == 2) {
                     setScore({yourScore: score.yourScore, opponentScore: score.opponentScore + 1})
                 }
-                setopponentMove(require('./../assets/rock.png'))
                 break;
             case 2:// Scissors
+                setopponentMove(require('./../assets/scissor.png'))
                 if (yourMove == 1) {
                     setScore({yourScore: score.yourScore + 1, opponentScore: score.opponentScore})
                 }
                 else if (yourMove == 0) {
                     setScore({yourScore: score.yourScore, opponentScore: score.opponentScore + 1})
                 }
-                setopponentMove(require('./../assets/scissor.png'))
                 break;
         }    
     }
