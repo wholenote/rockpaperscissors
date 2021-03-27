@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable} from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
 import { NavigationContainer } from '@react-navigation/native';
@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
     }
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: "center"}}>
             <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
             <Pressable 
                 onPress={()=>{
@@ -89,6 +89,14 @@ export default function Home({ navigation }) {
             >
                 <Text style={styles.buttonText}>about</Text>
             </Pressable>
+            
+            <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
+                <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
+                    <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                    <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                </View>
+                <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
+            </View>
         </View>
     )
 }
@@ -96,13 +104,21 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     name: {
         fontSize: 35,
-        top: 10,
+        top: 20,
+        fontWeight: 'bold',
+        width: "100%",
+        textAlign: 'center'
     },
     buttonText: {
-        fontSize: 30
+        fontSize: 30,
+        padding: 10,
+        textAlign: 'center'
     },
     buttonPress: {
-        borderRadius: 8,
-        padding: 6
+        borderRadius: 15,
+        backgroundColor: 'pink',
+        padding: 6,
+        margin: 10,
+        width: "40%"
     }
 });
