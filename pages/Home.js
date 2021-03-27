@@ -1,26 +1,54 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Pressable} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function Home(props) {
+export default function Home({ navigation }) {
     return (
-        <View style={{flex:1, backgroundColor:"red"}}>
-            <Text style={styles.name}>rock paper scissors</Text>
-            <View style={styles.button}>
-                <Button
-                    onPress={()=>{}}
-                    title="play"
-                    color="black"
-                />
-            </View>
-            <View style={styles.button}>
-                <Button
-                    onPress={()=>{}}
-                    title="sign in"
-                    color="black"
-                />
-            </View>
+        <View style={{alignItems: 'center'}}>
+            <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
+            <Pressable 
+                onPress={()=>{}}
+                style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed
+                        ? 'rgb(210, 230, 255)'
+                        : 'white'
+                    },
+                    styles.buttonPress
+                ]}
+            >
+                <Text style={styles.buttonText}>play</Text>
+            </Pressable>
+            <Pressable 
+                onPress={()=>{}}
+                style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed
+                        ? 'rgb(210, 230, 255)'
+                        : 'white'
+                    },
+                    styles.buttonPress
+                ]}
+            >
+                <Text style={styles.buttonText}>sign in</Text>
+            </Pressable>
+            <Pressable 
+                onPress={()=>{
+                    navigation.navigate('About')
+                }}
+                style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed
+                        ? 'rgb(210, 230, 255)'
+                        : 'white'
+                    },
+                    styles.buttonPress
+                ]}
+            >
+                <Text style={styles.buttonText}>about</Text>
+            </Pressable>
         </View>
     )
 }
@@ -30,14 +58,11 @@ const styles = StyleSheet.create({
         fontSize: 35,
         top: 10,
     },
-    container: {
-        backgroundColor: '#3498db'
+    buttonText: {
+        fontSize: 30
     },
-    button: {
-        backgroundColor: '#00aeef',
-        borderWidth: 1,
-        width: 100,
-        borderRadius: 15,
-        margin: 10,
-}
+    buttonPress: {
+        borderRadius: 8,
+        padding: 6
+    }
 });
