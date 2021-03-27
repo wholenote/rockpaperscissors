@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Alert, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
 
-export default function About(props) {
+
+export default function Instructions(props) {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
