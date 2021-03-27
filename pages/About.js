@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
 
 export default function About(props) {
-    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.container}> 
-            <Text style={styles.titleText}> 
-                About
-            </Text>
-            <Text>Developed by: </Text>
+            <Text style={styles.titleText}>Instructions</Text>
+            <Text>Rules: </Text>
             <Text> 
-            Andy Weng, Brian Wang, Joshua Arrojado
+            Each player must pick each either rock, paper or scissors
             </Text>
         </View>
     )
