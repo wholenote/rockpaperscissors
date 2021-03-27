@@ -3,8 +3,6 @@ import { RefreshControl, Image, StyleSheet, Text, View, StatusBar, SafeAreaView,
 
 import DATA from "../data/playerData.json";
 
-var count = 1;
-
 const Item = ({ title, elo, country_flag, place }) => (
     <View style={styles.item}>
         <Text style={styles.title}>{place}. {title}  <Image style={styles.tinyLogo} source={{uri: country_flag}}/></Text>
