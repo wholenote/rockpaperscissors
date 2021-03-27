@@ -1,22 +1,27 @@
 [
  {
     "title": "Brain",
-    "elo": 42069
+    "elo": 42069,
+    "country_flag": "https://www.countryflags.io/cn/flat/64.png"
  }, 
  {
     "title": "Monkey",
-    "elo": 6969
+    "elo": 6969,
+    "country_flag": "https://www.countryflags.io/bl/flat/64.png"
  }, 
  {
     "title": "Andy",
-    "elo": 2000
+    "elo": 2000,
+    "country_flag": "https://www.countryflags.io/cn/flat/64.png"
  }, 
  {
     "title": "Chunk",
-    "elo": 1812
+    "elo": 1812,
+    "country_flag": "https://www.countryflags.io/jp/flat/64.png"
  },
  {
     "title": "simp",
-    "elo": -1810
+    "elo": -1810,
+    "country_flag": "https://www.countryflags.io/ph/flat/64.png"
  }
 ]

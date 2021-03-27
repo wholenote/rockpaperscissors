@@ -1,20 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, SafeAreaView, FlatList } from 'react-native';
+import { Image, StyleSheet, Text, View, StatusBar, SafeAreaView, FlatList } from 'react-native';
 
 import DATA from "../data/playerData.json";
 
 var count = 1;
 
-const Item = ({ title, elo }) => (
+const Item = ({ title, elo, country_flag }) => (
     <View style={styles.item}>
-        <Text style={styles.title}>{count++}) {title} </Text>
-        <Text style={styles.elo}>{elo}</Text>
+        <Text style={styles.title}>{count++}) {title}  <Image style={styles.tinyLogo} source={{uri: country_flag}}/></Text>
+        <Text style={styles.elo}>{elo} </Text>
     </View>
 );
 
 export default function Leaderboard() {
     const renderItem = ({ item }) => (
-        <Item title={item.title} Item elo={item.elo} />
+        <Item title={item.title} Item elo={item.elo} Item country_flag={item.country_flag}/>
     );
 
     return (
@@ -49,12 +49,17 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     elo: {
-        fontSize: 15,
+        fontSize: 17,
+        marginVertical: 10,
     },
     titleText: {
         fontSize: 45,
         fontWeight: "bold",
         padding: 15,
         textAlign: "center"
+    },
+    tinyLogo: {
+        width: 30,
+        height: 30,
     },
 });
