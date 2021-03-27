@@ -1,20 +1,31 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View, StatusBar, SafeAreaView, FlatList } from 'react-native';
+import { RefreshControl, Image, StyleSheet, Text, View, StatusBar, SafeAreaView, FlatList } from 'react-native';
 
 import DATA from "../data/playerData.json";
 
 var count = 1;
 
-const Item = ({ title, elo, country_flag }) => (
+const Item = ({ title, elo, country_flag, place }) => (
     <View style={styles.item}>
-        <Text style={styles.title}>{count++}) {title}  <Image style={styles.tinyLogo} source={{uri: country_flag}}/></Text>
+        <Text style={styles.title}>{place}. {title}  <Image style={styles.tinyLogo} source={{uri: country_flag}}/></Text>
         <Text style={styles.elo}>{elo} </Text>
     </View>
 );
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 export default function Leaderboard() {
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      wait(1000).then(() => setRefreshing(false));
+    }, []);
+
     const renderItem = ({ item }) => (
-        <Item title={item.title} Item elo={item.elo} Item country_flag={item.country_flag}/>
+        <Item title={item.title} Item elo={item.elo} Item country_flag={item.country_flag} Item place={item.place}/>
     );
 
     return (
@@ -24,6 +35,12 @@ export default function Leaderboard() {
                 data={DATA}
                 renderItem={renderItem}
                 keyExtractor={item => item.title}
+                refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                }
             />
         </SafeAreaView>
         
