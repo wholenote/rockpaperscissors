@@ -13,7 +13,7 @@ export default function Home({ navigation }) {
                 <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
                 <Pressable 
                     onPress={()=>{
-
+                        navigation.navigate('InGame')
                     }}
                     style={({ pressed }) => [
                         {

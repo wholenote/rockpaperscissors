@@ -15,7 +15,13 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <Leaderboard></Leaderboard>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='About' component={About}/>
+        <Stack.Screen name='InGame' component={InGame}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
