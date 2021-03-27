@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
+import SignIn from './InGame'
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function Home({ navigation }) {
@@ -39,6 +40,21 @@ export default function Home({ navigation }) {
                 >
                     <Text style={styles.buttonText}>multiplayer</Text>
                 </Pressable>
+                <Pressable 
+                    onPress={()=>{
+                        setPlay(false);
+                    }}
+                    style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed
+                            ? 'rgb(210, 230, 255)'
+                            : 'white'
+                        },
+                        styles.buttonPress
+                    ]}
+                >
+                    <Text style={styles.buttonText}>back</Text>
+                </Pressable>
             </View>
         )
     }
@@ -62,7 +78,9 @@ export default function Home({ navigation }) {
                 <Text style={styles.buttonText}>play</Text>
             </Pressable>
             <Pressable 
-                onPress={()=>{}}
+                onPress={()=>{
+                    navigation.navigate('SignIn')
+                }}
                 style={({ pressed }) => [
                     {
                       backgroundColor: pressed

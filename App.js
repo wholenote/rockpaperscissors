@@ -7,6 +7,7 @@ import About from './pages/About';
 import InGame from './pages/InGame';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
+import SignIn from './pages/SignIn';
 import Home from './pages/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name='Home' component={Home}/>
         <Stack.Screen name='About' component={About}/>
         <Stack.Screen name='InGame' component={InGame}/>
+        <Stack.Screen name='SignIn' component={SignIn}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

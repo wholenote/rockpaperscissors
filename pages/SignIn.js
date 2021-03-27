@@ -1,89 +1,122 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, SafeAreaView, TextInput, StatusBar, Button, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
 
 export default function SignIn(props) {
     const [signup, setSignUp] = useState(false);
+    //login vars
+    const [email, onChangeEmail] = useState("");
+    const [password, onChangePassword] = useState("");
+
+    //sign up vars
+    const [username, onChangeUsername] = useState("");
+    const [newemail, onChangeNewEmail] = useState("");
+    const [newpassword, onChangeNewPassword] = useState("");
+
     if (!signup) {
         return (
-            <SafeAreaView style={styles.container}>
-                <Text style={styles.headerText}>email</Text>
+            <View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
                 <TextInput
                     style={styles.input}
+                    placeholder="email"
+                    onChangeText={onChangeEmail}
+                    value={email}
                 />
-                <Text style={styles.headerText}>password</Text>
                 <TextInput
                     style={styles.input}
+                    placeholder="password"
+                    secureTextEntry={true}
+                    onChangeText={onChangePassword}
+                    value={password}
                 />
-                <View> 
-                    <Button
-                        title="Sign In"
-                        
-                    />
-                </View>
-                <Text>not signed up?</Text> 
                 <Pressable 
                     onPress={()=>{
-                        setSignUp(true);
+                        
                     }}
                     style={({ pressed }) => [
                         {
-                          backgroundColor: pressed
+                        backgroundColor: pressed
                             ? 'rgb(210, 230, 255)'
                             : 'white'
                         },
                         styles.buttonPress
                     ]}
-                >
-                    <Text style={styles.buttonText}>sign up here</Text>
+                    >
+                    <Text style={styles.buttonText}>sign in</Text>
                 </Pressable>
-            </SafeAreaView>
+                <Pressable 
+                    onPress={()=>{
+                        setSignUp(true);
+                    }}
+                >
+                    <Text style={{color: 'blue'}}>not signed up? sign up here</Text>
+                </Pressable>
+            </View>
         )
     } else {
-        <SafeAreaView style={styles.container}>
-                <Text style={styles.headerText}>email</Text>
+        return (
+            <View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
                 <TextInput
                     style={styles.input}
+                    placeholder="username"
+                    onChangeText={onChangeUsername}
+                    value={username}
                 />
-                <Text style={styles.headerText}>password</Text>
                 <TextInput
                     style={styles.input}
+                    placeholder="email"
+                    onChangeText={onChangeNewEmail}
+                    value={newemail}
                 />
-                <View> 
-                    <Button
-                        title="Sign In"
+                <TextInput
+                    style={styles.input}
+                    placeholder="password"
+                    secureTextEntry={true}
+                    onChangeText={onChangeNewPassword}
+                    value={newpassword}
+                />
+                <Pressable 
+                    onPress={()=>{
                         
-                    />
-                </View>
-                
-            </SafeAreaView>
+                    }}
+                    style={({ pressed }) => [
+                        {
+                        backgroundColor: pressed
+                            ? 'rgb(210, 230, 255)'
+                            : 'white'
+                        },
+                        styles.buttonPress
+                    ]}
+                    hitSlop={40}
+                    >
+                    <Text style={styles.buttonText}>sign up</Text>
+                </Pressable>
+            </View>
+        )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-        margin: 10,
-        padding: 10,
-        justifyContent: "center"
-    },
-    headerText: {
-        fontSize: 30,
-        //padding: 15,
-        marginHorizontal: 15,
-    },
     input: {
-        height: 30,
-        margin: 15,
-        borderWidth: 1,
-    },
-    button: {
-
+        fontSize: 30,
     },
     buttonText: {
-
+        fontSize: 30,
+        padding: 10,
+        textAlign: 'center'
     },
     buttonPress: {
-        
+        borderRadius: 15,
+        backgroundColor: 'pink',
+        padding: 6,
+        margin: 10,
+        width: "40%"
     }
 });
