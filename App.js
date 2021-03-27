@@ -13,6 +13,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as firebase from 'firebase'; 
 
+global.user = null;
+
 const Stack = createStackNavigator();
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -31,6 +33,7 @@ var firebaseConfig = {
 }
 
 export default function App() {
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
@@ -42,6 +45,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
 
 /*
 

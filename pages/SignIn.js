@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
+import * as firebase from 'firebase/app';
+import 'firebase/auth'; 
 
-export default function SignIn(props) {
+export default function SignIn({ navigation }) {
     const [signup, setSignUp] = useState(false);
     //login vars
     const [email, onChangeEmail] = useState("");
@@ -34,7 +36,22 @@ export default function SignIn(props) {
                 />
                 <Pressable 
                     onPress={()=>{
-                        
+                        firebase.auth().signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            // Signed in
+                            global.user = userCredential.user;
+
+                            if (global.user) {
+                                console.log("signed in " + user.email);
+                            }
+
+                            navigation.navigate('Home')
+                        })
+                        .catch((error) => {
+                            var errorCode = error.code;
+                            var errorMessage = error.message;
+                            console.log(errorCode + ": " + errorMessage);
+                        });
                     }}
                     style={({ pressed }) => [
                         {
@@ -66,25 +83,38 @@ export default function SignIn(props) {
                 <TextInput
                     style={styles.input}
                     placeholder="username"
-                    onChangeText={onChangeUsername}
+                    onChangeText={(value) => onChangeUsername(value)}
                     value={username}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="email"
-                    onChangeText={onChangeNewEmail}
-                    value={newemail}
+                    onChangeText={(value) => onChangeNewEmail(value)}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="password"
-                    secureTextEntry={true}
-                    onChangeText={onChangeNewPassword}
-                    value={newpassword}
+                    //secureTextEntry={true}
+                    onChangeText={(value) => onChangeNewPassword(value)}
                 />
                 <Pressable 
                     onPress={()=>{
-                        
+                        firebase.auth().createUserWithEmailAndPassword(newemail, newpassword)
+                            .then((userCredential) => {
+                                // Signed in 
+                                global.user = userCredential.user;
+
+                                if (global.user) {
+                                    console.log("signed in " + user.email);
+                                }
+
+                                navigation.navigate('Home')
+                            })
+                            .catch((error) => {
+                                var errorCode = error.code;
+                                var errorMessage = error.message;
+                                console.log(errorCode + ": " + errorMessage);
+                        });
                     }}
                     style={({ pressed }) => [
                         {
@@ -94,7 +124,6 @@ export default function SignIn(props) {
                         },
                         styles.buttonPress
                     ]}
-                    hitSlop={40}
                     >
                     <Text style={styles.buttonText}>sign up</Text>
                 </Pressable>

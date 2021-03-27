@@ -5,9 +5,16 @@ import About from './About'
 import SignIn from './InGame'
 import { NavigationContainer } from '@react-navigation/native';
 
+
 export default function Home({ navigation }) {
     const [play, setPlay] = useState(false);
 
+    // if (global.user) {
+    //     return (
+    //         <Text>You're signed in!</Text>
+    //     )
+    // }
+    
     if (play) {
         return (
             <View style={{alignItems: 'center'}}>
