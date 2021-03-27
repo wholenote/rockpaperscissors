@@ -1,41 +1,43 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
 
 export default function About(props) {
-    const {titleTest, setTitleText} = useState("About Page");
-    const header1 = "What is Rock Paper Scissors?"
-    const header2 = "How to Play?"
-
-    const text1 = ""
-    const text2 = ""
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titleText}>About
-                {"\n"}
-                {"\n"}
+        <View style={styles.container}> 
+            <Text style={styles.titleText}>Instructions</Text>
+            <Text>Rules: </Text>
+            <Text> 
+            Each player must pick each either rock, paper or scissors
             </Text>
-            <Text style={styles.headerText}></Text>
-            <Text style={styles.titleText}></Text>
-            <Text style={styles.headerText}></Text>
-            <Text style={styles.titleText}></Text>
         </View>
     )
 }
 
+/*
+
+*/
+
 const styles = StyleSheet.create({
-    baseText: {
-        fontFamily: "Cochin"
+    container: {
+        flex: 1,
+        backgroundColor: "red",
+        padding: 25
+
     },
     titleText: {
-        fontSize: 20,
-        fontWeight: "bold"
+        fontSize: 25,
+        fontWeight: "bold",
+        backgroundColor: "yellow",
+        padding: 10
     },
     headerText: {
-        fontSize: 15,
-        fontWeight: "100"
+        fontSize: 18,
+        fontWeight: "normal",
+
     },
-    container: {
-        textAlign: "left"
-    }
+    baseText: {
+        fontSize: 15,
+
+    },
 });
