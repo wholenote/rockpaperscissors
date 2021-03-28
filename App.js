@@ -12,6 +12,7 @@ import InGameMulti from './pages/InGameMulti';
 import Home from './pages/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as firebase from 'firebase'; 
 
 global.user = false;
@@ -33,12 +34,25 @@ var firebaseConfig = {
     firebase.app(); // if already initialized, use that one
 }
 
+const Tab = createBottomTabNavigator();
+
+function HomeScreen() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Leaderboard" component={Leaderboard} />
+      <Tab.Screen name="About" component={About} />
+    </Tab.Navigator>
+  )
+}
+
 export default function App() {
   
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='RockPaperScissors' component={HomeScreen}/>
         <Stack.Screen name='About' component={About}/>
         <Stack.Screen name='InGame' component={InGame}/>
         <Stack.Screen name='SignIn' component={SignIn}/>
@@ -47,6 +61,18 @@ export default function App() {
         <Stack.Screen name='InGameMulti' component={InGameMulti}/>
       </Stack.Navigator>
     </NavigationContainer>
+    // <NavigationContainer>
+    //   <Tab.Navigator>
+    //     <Tab.Screen name="About" component={About} />
+    //     <Tab.Screen name="Home" component={Home} />
+    //     <Tab.Screen name="Profile" component={Profile} />
+    //     <Tab.Screen name="Leaderboard" component={Leaderboard} />
+    //     <Tab.Screen name="InGame" component={InGame} />
+    //     <Tab.Screen name="SignIn" component={SignIn} />
+    //     <Tab.Screen name="InGameMulti" component={InGameMulti} />
+        
+    //   </Tab.Navigator>
+    // </NavigationContainer>
   );
 }
 
