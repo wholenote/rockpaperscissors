@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
 import { Pages } from 'react-native-pages';
 
 export default function InGame() {
@@ -27,7 +27,7 @@ export default function InGame() {
                     setScore({yourScore: score.yourScore, opponentScore: score.opponentScore + 1})
                 }
                 break;
-            case 2:// Scissors
+            case 2: // Scissors
                 setopponentMove(require('./../assets/scissor.png'))
                 if (yourMove == 1) {
                     setScore({yourScore: score.yourScore + 1, opponentScore: score.opponentScore})
@@ -39,43 +39,52 @@ export default function InGame() {
         }    
     }
     return (
-        <View style={styles.container}>
-            <View style={styles.playerView}>
-                <PlayerView top={0} name='Player 2' image={opponentMove} score={score.opponentScore}></PlayerView>
+        <SafeAreaView style={styles.container}>
+            <View>
+                <Text style={styles.playerStats}>Bot {score.opponentScore}</Text> 
             </View>
-            <View style={{borderBottomColor: 'black', borderBottomWidth: 10}}/>
-            <View style={styles.playerView}>
-                <PlayerView top={1} name='Player 1' score={score.yourScore} move={makeMove} selectMove={setyourMove}></PlayerView>
+            <View style={styles.botView}>
+                <BotView top={0} name='Bot' image={opponentMove} score={score.opponentScore}></BotView>
             </View>
-        </View>
+            {/* <View style={{borderBottomColor: 'black', borderBottomWidth: 10}}/> */}
+            <View style={styles.playerView}>
+                <PlayerView top={1} name='You' score={score.yourScore} move={makeMove} selectMove={setyourMove}></PlayerView>
+            </View>
+            <View>
+                <Text style={styles.playerStats}>You {score.yourScore}</Text> 
+            </View>
+        </SafeAreaView>
     )
 }
 
 const PlayerView = (prop) =>{
     return (
-        <View style={{width: "100%", height: "100%"}}>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', width: "100%"}}>
-                {prop.top == 1? 
-                    <Text style={styles.score}>{prop.score}</Text>:
-                    <Text style={styles.title}>{prop.name}</Text>}
-                {prop.top == 1 ? <Pages indicatorColor="rgb(0, 0, 0)" onScrollEnd={(index) => {
+            <View>
+                <Pages indicatorColor="rgb(0, 0, 0)" onScrollEnd={(index) => {
                     prop.selectMove(index)
                 }}>
-                    <Image source={require('./../assets/paper.png')} style={{width: "100%", height: "90%", resizeMode: 'contain'}}/>
-                    <Image source={require('./../assets/rock.png')} style={{ width: "100%", height: "90%", resizeMode: 'contain'}}/>
-                    <Image source={require('./../assets/scissor.png')} style={{ width: "100%", height: "90%", resizeMode: 'contain' }}/>
-                </Pages> : <Image source={prop.image} style={{ width: "100%", height: "85%", resizeMode: 'contain' }}/>}
-                {prop.top != 1 ? 
-                    <Text style={styles.score}>{prop.score}</Text>
-                        :
-                    <View>
-                        <Pressable onPress={()=>{
-                            prop.move()
-
-                        }}><Text style={styles.attack}>ATTACK!</Text></Pressable> 
-                        <Text style={styles.title}>{prop.name}</Text>
-                    </View>}
+                    <Image source={require('./../assets/paper.png')} style={styles.playerMove}/>
+                    <Image source={require('./../assets/rock.png')} style={styles.playerMove}/>
+                    <Image source={require('./../assets/scissor.png')} style={styles.playerMove}/>
+                </Pages>
+                <View>
+                    <Pressable onPress={() => {
+                        prop.move()
+                    }}> 
+                        <Text style={styles.attack}>ATTACK!</Text>
+                    </Pressable>
+                </View>
+                {/* <Text style={styles.playerStats}>{prop.name}  {prop.score}</Text> */}
+                
             </View>
+    )
+}
+
+const BotView = (prop) =>{
+    return (
+        <View>
+            {/* <Text style={styles.title}>{prop.name}   {prop.score}</Text> */}
+            <Image source={prop.image} style={styles.opponentMove}/> 
         </View>
     )
 }
@@ -87,6 +96,27 @@ const styles = StyleSheet.create({
         textAlign: "center",
         position: 'relative'
     },
+    opponentMove: {
+        resizeMode: "center",
+        height: 100,
+        width: 200,
+        margin: 10
+        //resizeMode: 'contain',
+        //padding: 10,
+        //textAlign: "center",
+    },  
+    playerMove: {
+        resizeMode: "center",
+        height: "100%",
+        width: "100%"
+    },
+    playerStats: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        textAlign: "center",
+        fontVariant: ["proportional-nums"],
+        // textAlignVertical: 'bottom'
+    },  
     score: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -95,17 +125,26 @@ const styles = StyleSheet.create({
     },
     playerView: {
         flex: 1,
-        margin: 10,
-        alignItems:'center'
+        // borderWidth: 1,
+    },
+    botView: {
+        flex: 1,
+        // borderWidth: 1,
     },
     container: {
         flex: 1,
+        margin: 5,
+        justifyContent: "space-evenly",
+        flexDirection: "column",
+        padding: 20,
+        margin: 10,
+        alignItems: "center"
     },
     attack: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 30,
-        borderRadius: 20,
+        fontSize: 20,
+        borderRadius: 14,
         borderColor: 'black',
         borderWidth: 2,
         backgroundColor:'red',
