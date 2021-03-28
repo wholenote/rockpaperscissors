@@ -61,28 +61,5 @@ export default function App() {
         <Stack.Screen name='InGameMulti' component={InGameMulti}/>
       </Stack.Navigator>
     </NavigationContainer>
-    // <NavigationContainer>
-    //   <Tab.Navigator>
-    //     <Tab.Screen name="About" component={About} />
-    //     <Tab.Screen name="Home" component={Home} />
-    //     <Tab.Screen name="Profile" component={Profile} />
-    //     <Tab.Screen name="Leaderboard" component={Leaderboard} />
-    //     <Tab.Screen name="InGame" component={InGame} />
-    //     <Tab.Screen name="SignIn" component={SignIn} />
-    //     <Tab.Screen name="InGameMulti" component={InGameMulti} />
-        
-    //   </Tab.Navigator>
-    // </NavigationContainer>
   );
 }
-
-
-/*
-
-<NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name='Home' component={Home}/>
-        <Stack.Screen name='About' component={About}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-*/

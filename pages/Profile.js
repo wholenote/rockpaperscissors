@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Image, SafeAreaView, VirtualizedList } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -16,6 +16,7 @@ export default function Profile() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scrollView}> 
             <Animated.View style={styles.topSection}>
                 <Image style={styles.profileImage} source={require('./../assets/paper.png')}/>
                 <Text style={styles.username}>Username</Text>
@@ -42,6 +43,7 @@ export default function Profile() {
                 <Text style={[styles.item ,{paddingRight:20}]}>{item.Opponent} vs Username</Text>
                 <Text style={[styles.item, {flex: 1, textAlign:'right'}]}>{item.Opponent}</Text>
             </View>}/>
+            </ScrollView>
         </SafeAreaView>
     )
 }
