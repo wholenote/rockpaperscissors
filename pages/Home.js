@@ -105,52 +105,6 @@ export default function Home({ navigation }) {
                 </Pressable>
                 <Pressable 
                     onPress={()=>{
-                        navigation.navigate('About')
-                    }}
-                    style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? 'rgb(210, 230, 255)'
-                            : 'white'
-                        },
-                        styles.buttonPress
-                    ]}
-                >
-                    <Text style={styles.buttonText}>about</Text>
-                </Pressable>
-                
-                <Pressable 
-                    onPress={()=>{
-                        navigation.navigate('Profile')
-                    }}
-                    style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? 'rgb(210, 230, 255)'
-                            : 'white'
-                        },
-                        styles.buttonPress
-                    ]}
-                >
-                    <Text style={styles.buttonText}>profile</Text>
-                </Pressable>
-                <Pressable 
-                    onPress={()=>{
-                        navigation.navigate('Leaderboard')
-                    }}
-                    style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? 'rgb(210, 230, 255)'
-                            : 'white'
-                        },
-                        styles.buttonPress
-                    ]}
-                >
-                    <Text style={styles.buttonText}>leaderboard</Text>
-                </Pressable>
-                <Pressable 
-                    onPress={()=>{
                         firebase.auth().signOut().then(() => {
                             // Sign-out successful.
                             global.user = false;
@@ -272,21 +226,6 @@ export default function Home({ navigation }) {
                     ]}
                 >
                     <Text style={styles.buttonText}>sign in</Text>
-                </Pressable>
-                <Pressable 
-                    onPress={()=>{
-                        navigation.navigate('About')
-                    }}
-                    style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? 'rgb(210, 230, 255)'
-                            : 'white'
-                        },
-                        styles.buttonPress
-                    ]}
-                >
-                    <Text style={styles.buttonText}>about</Text>
                 </Pressable>
                 
                 {/* <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>

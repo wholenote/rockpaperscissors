@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
 import { Pages } from 'react-native-pages';
-import * as firebase from 'firebase'
-import 'firebase/firestore';
+import { firebase } from '../firebase/config';
 
 
 const db = firebase.firestore();

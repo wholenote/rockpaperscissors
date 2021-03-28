@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
-import * as firebase from 'firebase/app';
-import 'firebase/auth'; 
+import { firebase } from '../firebase/config';
 
 export default function SignIn({ navigation}) {
     const [signup, setSignUp] = useState(false);
