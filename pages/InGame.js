@@ -44,11 +44,11 @@ export default function InGame() {
                 <Text style={styles.playerStats}>Bot {score.opponentScore}</Text> 
             </View>
             <View style={styles.botView}>
-                <BotView top={0} name='Bot' image={opponentMove} score={score.opponentScore}></BotView>
+                <BotView top={0} image={opponentMove}></BotView>
             </View>
-            {/* <View style={{borderBottomColor: 'black', borderBottomWidth: 10}}/> */}
+            <View style={{borderBottomColor: 'black', borderBottomWidth: 10}}/>
             <View style={styles.playerView}>
-                <PlayerView top={1} name='You' score={score.yourScore} move={makeMove} selectMove={setyourMove}></PlayerView>
+                <PlayerView score={score.yourScore} move={makeMove} selectMove={setyourMove}></PlayerView>
             </View>
             <View>
                 <Text style={styles.playerStats}>You {score.yourScore}</Text> 
@@ -97,16 +97,16 @@ const styles = StyleSheet.create({
         position: 'relative'
     },
     opponentMove: {
-        resizeMode: "center",
-        height: 100,
-        width: 200,
+        resizeMode: "contain",
+        height: 130,
+        width: 150,
         margin: 10
         //resizeMode: 'contain',
         //padding: 10,
         //textAlign: "center",
     },  
     playerMove: {
-        resizeMode: "center",
+        resizeMode: "contain",
         height: "100%",
         width: "100%"
     },
