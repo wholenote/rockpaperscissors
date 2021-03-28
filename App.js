@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import About from './pages/About';
 import InGame from './pages/InGame';
 import Leaderboard from './pages/Leaderboard';
@@ -38,7 +39,27 @@ const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            return <AntDesign name={"home"} size={size} color={color} />;
+          } else if (route.name === 'Profile') {
+            return <AntDesign name={"profile"} size={size} color={color} />;
+          } else if (route.name === 'Leaderboard') {
+            return <MaterialIcons name={"leaderboard"} size={size} color={color} />;
+          } else if (route.name === 'About') {
+            return <FontAwesome name={"hand-stop-o"} size={size} color={color} />;
+          }
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'red',
+        inactiveTintColor: 'gray',
+      }}
+    >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Leaderboard" component={Leaderboard} />
