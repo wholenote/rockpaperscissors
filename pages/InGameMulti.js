@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Image, Pressable, Alert } from 'rea
 import { Pages } from 'react-native-pages';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+import { add } from 'react-native-reanimated';
 
 
 const db = firebase.firestore();
@@ -17,6 +18,7 @@ export default function InGameMulti({ navigation }) {
     const [waiting, setWaiting] = useState(false)
     var listenForMove = ()=>{}
     var listener = ()=>{}
+    var opponentUserId = 0
 
     useEffect(() => {
         var collection = db.collection("matching").get().then((snap) => {
@@ -37,7 +39,7 @@ export default function InGameMulti({ navigation }) {
             else {
                 var opponent = snap.docs[0]
                 var opponentDocId = opponent.id
-                var opponentUserId = opponent.data().user
+                opponentUserId = opponent.data().user
                 if (opponentUserId != global.user.uid) {
                     db.collection("matching").doc(opponentDocId).delete()
                     db.collection('game').add({player2:opponentUserId, 
@@ -45,7 +47,7 @@ export default function InGameMulti({ navigation }) {
                                                 player1Score: 0,
                                                 player2Score: 0,
                                                 player1Move: null,
-                                                player2Move: null  
+                                                player2Move: null,
                                                 }).then(docRef => {
                         startGame(docRef.id)
                         db.collection("users").doc(global.user.uid).update({currentGame:docRef.id})
@@ -123,15 +125,36 @@ export default function InGameMulti({ navigation }) {
 
     const checkScore = (score) => {
         if (score > 4) {
-            db.collection('game').doc(gameId).delete()
-            db.collection('users').doc(global.user.uid).update({currentGame: null, mmr: firebase.firestore.FieldValue.increment(yourScore < opponentScore ? 10 : -10)})
-            listenForMove()
-            listener()
-            Alert.alert(
-            yourScore < opponentScore ? "You LOST!" : "You WON!",
-            yourScore < opponentScore ? "You Lost -10Lp": "You Gained 10Lp",
-            [{ text: "OK", onPress: () => {navigation.goBack()} }])
-
+            var myScore = 0
+            var otherScore
+            db.collection('game').doc(gameId).get().then( (docRef) => {
+                if (docRef.data() == null) {
+                    listenForMove()
+                    listener()
+                    Alert.alert(
+                    yourScore < opponentScore ? "You LOST!" : "You WON!",
+                    yourScore < opponentScore  ? "You Lost -10Lp": "You Gained 10Lp",
+                    [{ text: "OK", onPress: () => {navigation.goBack()} }])
+                }
+                if (player1) {
+                    myScore = docRef.data().player1Score
+                    otherScore = docRef.data().player2Score
+                }
+                else {
+                    myScore = docRef.data().player2Score
+                    otherScore = docRef.data().player1Score
+                }
+            }).then(() => {
+                db.collection('game').doc(gameId).delete()
+                db.collection('users').doc(global.user.uid).update({currentGame: null, mmr: firebase.firestore.FieldValue.increment(myScore < otherScore ? 10 : -10)})
+                db.collection('users').doc(global.user.uid).collection('matchHistory').add({opponentScore: otherScore, score: myScore, time: firebase.firestore.FieldValue.serverTimestamp()})
+                listenForMove()
+                listener()
+                Alert.alert(
+                yourScore < opponentScore ? "You LOST!" : "You WON!",
+                yourScore < opponentScore  ? "You Lost -10Lp": "You Gained 10Lp",
+                [{ text: "OK", onPress: () => {navigation.goBack()} }])
+                })
         }
     }
     const checkWin = (move, player1) => {
