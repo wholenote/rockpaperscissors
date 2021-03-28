@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { Pages } from 'react-native-pages';
 
 export default function InGame() {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
         height: 130,
         width: 150,
-        margin: 10
+        margin: 10,
         //resizeMode: 'contain',
         //padding: 10,
         //textAlign: "center",
@@ -108,7 +108,10 @@ const styles = StyleSheet.create({
     playerMove: {
         resizeMode: "contain",
         height: "100%",
-        width: "100%"
+        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
     playerStats: {
         fontSize: 32,

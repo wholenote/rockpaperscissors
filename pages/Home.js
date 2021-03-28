@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Pressable, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
 import SignIn from './InGame'
@@ -85,7 +85,6 @@ export default function Home({ navigation}) {
     
         return (
             <SafeAreaView style={{alignItems: 'center'}}>
-            <ScrollView style={styles.scrollView}> 
                 <View style={{alignItems: 'center'}}>
                 <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                 <Pressable 
@@ -131,15 +130,14 @@ export default function Home({ navigation}) {
                     <Text style={styles.buttonText}>sign out</Text>
                 </Pressable>
                 
-                {/* <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
-                    <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
-                        <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
-                        <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
-                    </View>
-                    <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
-                </View> */}
+                        <View style={{flex: 1, width: "100%"}}>
+                            <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
+                                <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                                <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                            </View>
+                            <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/> 
+                        </View>
                 </View>
-                </ScrollView>
             </SafeAreaView>
         )
     } else {
@@ -163,19 +161,6 @@ export default function Home({ navigation}) {
                     >
                         <Text style={styles.buttonText}>vs bots</Text>
                     </Pressable>
-                    {/* <Pressable 
-                        onPress={()=>{}}
-                        style={({ pressed }) => [
-                            {
-                              backgroundColor: pressed
-                                ? 'rgb(210, 230, 255)'
-                                : 'white'
-                            },
-                            styles.buttonPress
-                        ]}
-                    >
-                        <Text style={styles.buttonText}>multi- player</Text>
-                    </Pressable> */}
                     <Pressable 
                         onPress={()=>{
                             setPlay(false);
@@ -197,7 +182,6 @@ export default function Home({ navigation}) {
     
         return (
             <SafeAreaView style={{alignItems: 'center'}}>
-            <ScrollView style={styles.scrollView}> 
                 <View style={{alignItems: 'center'}}> 
                 <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                 <Pressable 
@@ -231,15 +215,14 @@ export default function Home({ navigation}) {
                     <Text style={styles.buttonText}>sign in</Text>
                 </Pressable>
                 
-                {/* <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
+                <View style={{flex: 1, width: "100%"}}>
                     <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
                         <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                         <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                     </View>
                     <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
-                </View> */}
+                </View> 
                 </View>
-                </ScrollView>
             </SafeAreaView>
         )
     }
@@ -268,5 +251,10 @@ const styles = StyleSheet.create({
     },
     scrollview: {
         marginHorizontal: 10
-    }
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
 });
