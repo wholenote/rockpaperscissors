@@ -62,7 +62,7 @@ export default function Home({ navigation }) {
                             styles.buttonPress
                         ]}
                     >
-                        <Text style={styles.buttonText}>multiplayer</Text>
+                        <Text style={styles.buttonText}>multi- player</Text>
                     </Pressable>
                     <Pressable 
                         onPress={()=>{
@@ -217,7 +217,7 @@ export default function Home({ navigation }) {
                             styles.buttonPress
                         ]}
                     >
-                        <Text style={styles.buttonText}>multiplayer</Text>
+                        <Text style={styles.buttonText}>multi- player</Text>
                     </Pressable>
                     <Pressable 
                         onPress={()=>{
