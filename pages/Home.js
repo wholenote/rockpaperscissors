@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
 import SignIn from './InGame'
@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as firebase from 'firebase'; 
 
 
-export default function Home({ navigation }) {
+export default function Home({ navigation}) {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
         // User is signed in, see docs for a list of available properties
@@ -111,10 +111,13 @@ export default function Home({ navigation }) {
 
                             console.log('signed out')
 
-                            setRefreshPage("refresh"); 
+                             
                           }).catch((error) => {
                             // An error happened.
                         });
+                        navigation.navigate('Home');
+                        setRefreshPage("refresh");
+                        Alert.alert("Signed Out!");
                     }}
                     style={({ pressed }) => [
                         {

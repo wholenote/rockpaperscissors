@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
 import { firebase } from '../firebase/config';
 
+const db = firebase.firestore();
 export default function SignIn({ navigation}) {
     const [signup, setSignUp] = useState(false);
     const [refreshPage, setRefreshPage] = useState("");
@@ -42,11 +43,14 @@ export default function SignIn({ navigation}) {
                             global.user = userCredential.user;
 
                             if (global.user) {
-                                console.log("signed in " + user.email);
+                                console.log("signed in " + global.user.email);
                             }
 
-                            navigation.navigate('Home');
-                            setRefreshPage("refresh");
+                            db.collection("users").doc(user.uid).update({
+                                currentGame: null
+                            });
+
+                            navigation.navigate('Home', { setRefreshPage: setRefreshPage });
                         })
                         .catch((error) => {
                             var errorCode = error.code;
@@ -106,10 +110,22 @@ export default function SignIn({ navigation}) {
                                 global.user = userCredential.user;
 
                                 if (global.user) {
-                                    console.log("signed in " + user.email);
+                                    console.log("signed in " + global.user.email);
                                 }
                                 
-                                navigation.navigate('Home');
+                                var user = global.user;
+
+                                db.collection("users").doc(user.uid).set({
+                                    username: username,
+                                    mmr: 0,
+                                    profileImage: "",
+                                    matchHistory: {
+
+                                    },
+                                    currentGame: null
+                                });
+
+                                navigation.navigate('Profile');
                             })
                             .catch((error) => {
                                 var errorCode = error.code;
