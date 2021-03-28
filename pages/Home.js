@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, Image} from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import About from './About'
 import SignIn from './InGame'
@@ -32,8 +32,8 @@ export default function Home({ navigation }) {
         // signed in
         if (play) {
             return (
-                <View style={{alignItems: 'center'}}>
-                    <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
+                <SafeAreaView style={{alignItems: 'center'}}>
+                    <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                     <Pressable 
                         onPress={()=>{
                             navigation.navigate('InGame')
@@ -79,13 +79,15 @@ export default function Home({ navigation }) {
                     >
                         <Text style={styles.buttonText}>back</Text>
                     </Pressable>
-                </View>
+                </SafeAreaView>
             )
         }
     
         return (
-            <View style={{alignItems: "center"}}>
-                <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
+            <SafeAreaView style={{alignItems: 'center'}}>
+            <ScrollView style={styles.scrollView}> 
+                <View style={{alignItems: 'center'}}>
+                <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                 <Pressable 
                     onPress={()=>{
                         setPlay(true);
@@ -172,21 +174,23 @@ export default function Home({ navigation }) {
                     <Text style={styles.buttonText}>sign out</Text>
                 </Pressable>
                 
-                <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
+                {/* <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
                     <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
                         <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                         <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                     </View>
                     <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
+                </View> */}
                 </View>
-            </View>
+                </ScrollView>
+            </SafeAreaView>
         )
     } else {
         // signed out
         if (play) {
             return (
-                <View style={{alignItems: 'center'}}>
-                    <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
+                <SafeAreaView style={{alignItems: 'center'}}>
+                    <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                     <Pressable 
                         onPress={()=>{
                             navigation.navigate('InGame')
@@ -230,13 +234,15 @@ export default function Home({ navigation }) {
                     >
                         <Text style={styles.buttonText}>back</Text>
                     </Pressable>
-                </View>
+                </SafeAreaView>
             )
         }
     
         return (
-            <View style={{alignItems: "center"}}>
-                <Text style={styles.name}>rock paper scissors {"\n"}{"\n"}</Text>
+            <SafeAreaView style={{alignItems: 'center'}}>
+            <ScrollView style={styles.scrollView}> 
+                <View style={{alignItems: 'center'}}> 
+                <Text style={styles.name}> rock paper scissors {"\n"}{"\n"}</Text>
                 <Pressable 
                     onPress={()=>{
                         setPlay(true);
@@ -283,14 +289,16 @@ export default function Home({ navigation }) {
                     <Text style={styles.buttonText}>about</Text>
                 </Pressable>
                 
-                <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
+                {/* <View style={{flex: 1, width: "100%", backgroundColor: "blue"}}>
                     <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
                         <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                         <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
                     </View>
                     <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
+                </View> */}
                 </View>
-            </View>
+                </ScrollView>
+            </SafeAreaView>
         )
     }
 
@@ -315,5 +323,8 @@ const styles = StyleSheet.create({
         padding: 6,
         margin: 10,
         width: "40%"
+    },
+    scrollview: {
+        marginHorizontal: 10
     }
 });
