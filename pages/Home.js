@@ -5,7 +5,6 @@ import About from './About'
 import SignIn from './InGame'
 import Profile from './Profile'
 import Leaderboard from './Leaderboard'
-import InGameMulti from './InGameMulti'
 import { NavigationContainer } from '@react-navigation/native';
 import * as firebase from 'firebase'; 
 
