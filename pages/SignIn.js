@@ -3,8 +3,9 @@ import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
 import * as firebase from 'firebase/app';
 import 'firebase/auth'; 
 
-export default function SignIn({ navigation }) {
+export default function SignIn({ navigation}) {
     const [signup, setSignUp] = useState(false);
+    const [refreshPage, setRefreshPage] = useState("");
     //login vars
     const [email, onChangeEmail] = useState("");
     const [password, onChangePassword] = useState("");
@@ -45,7 +46,8 @@ export default function SignIn({ navigation }) {
                                 console.log("signed in " + user.email);
                             }
 
-                            navigation.navigate('Home')
+                            navigation.navigate('Home');
+                            setRefreshPage("refresh");
                         })
                         .catch((error) => {
                             var errorCode = error.code;
@@ -107,8 +109,8 @@ export default function SignIn({ navigation }) {
                                 if (global.user) {
                                     console.log("signed in " + user.email);
                                 }
-
-                                navigation.navigate('Home')
+                                
+                                navigation.navigate('Home');
                             })
                             .catch((error) => {
                                 var errorCode = error.code;
