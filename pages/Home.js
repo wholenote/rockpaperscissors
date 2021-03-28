@@ -163,7 +163,7 @@ export default function Home({ navigation}) {
                     >
                         <Text style={styles.buttonText}>vs bots</Text>
                     </Pressable>
-                    <Pressable 
+                    {/* <Pressable 
                         onPress={()=>{}}
                         style={({ pressed }) => [
                             {
@@ -175,7 +175,7 @@ export default function Home({ navigation}) {
                         ]}
                     >
                         <Text style={styles.buttonText}>multi- player</Text>
-                    </Pressable>
+                    </Pressable> */}
                     <Pressable 
                         onPress={()=>{
                             setPlay(false);
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     buttonText: {
-        fontSize: 30,
+        fontSize: 25,
         padding: 10,
         textAlign: 'center'
     },
