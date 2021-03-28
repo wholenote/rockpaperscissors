@@ -125,6 +125,8 @@ export default function SignIn({ navigation}) {
                                     currentGame: null
                                 });
 
+                                db.collection('users').doc(user.uid).collection('matchHistory').add({});
+
                                 navigation.navigate('Profile');
                             })
                             .catch((error) => {

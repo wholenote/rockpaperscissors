@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView, Pressable } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+import { firebase } from '../firebase/config';
 
 const HEADER_EXPANDED_HEIGHT = 300;
 const HEADER_COLLAPSED_HEIGHT = 60;
 
+const db = firebase.firestore();
 export default function Profile() {
     const [scrollY, setScrollY] = useState(new Animated.Value(0))
     const headerHeight = scrollY.interpolate({
@@ -13,39 +15,89 @@ export default function Profile() {
         outputRange: [HEADER_EXPANDED_HEIGHT, HEADER_COLLAPSED_HEIGHT],
         extrapolate: 'clamp'
     });
+    const [username, setUsername] = useState("");
+    const [mmr, setmmr] = useState(0);
+    const [matchHistory, setMatchHistory] = useState([]);
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollView}> 
-            <Animated.View style={styles.topSection}>
-                <Image style={styles.profileImage} source={require('./../assets/paper.png')}/>
-                <Text style={styles.username}>Username</Text>
-                <Image style={styles.rankImage} source={require('./../assets/rank.png')}/>
-                <Text style={{fontSize: 18, marginBottom: 50}}>Challenger 1000LP</Text>
-                <Text style={{fontSize:20, fontWeight: "bold", alignSelf:"center"}}>Match History</Text>
-            </Animated.View>
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var uid = user.uid;
+        } else {
+        }
+    });
+
+    if (global.user) {
+        // signed in
+
+        db.collection('users').doc(global.user.uid).get().then((doc) => {
+            setUsername(doc.data().username);
+            setmmr(doc.data().mmr); 
+        })
+
+        db.collection('users').doc(global.user.uid).collection('matchHistory').get().then((querySnapshot) => {
+            var history = [];
+
+            querySnapshot.forEach((doc) => {
+                var tmp = {
+                    opponent: doc.data().opponent,
+                    opponentScore: doc.data().opponentScore,
+                    order: doc.data().order,
+                    score: doc.data().score
+                };
+                history.push(tmp);
+            }); 
+            setMatchHistory(history);
+        })
+
+        
+
+        return (
+            <SafeAreaView style={styles.container}>
+                <ScrollView style={styles.scrollView}> 
+                <Animated.View style={styles.topSection}>
+                    <Pressable 
+                        onPress={()=>{
+                            
+                        }}
+                        style={({ pressed }) => [
+                            {
+                              backgroundColor: pressed
+                                ? 'rgb(210, 230, 255)'
+                                : 'white'
+                            },
+                            styles.buttonPress
+                        ]}
+                    >
+                        <Image style={styles.profileImage} source={require('./../assets/paper.png')}/>
+                    </Pressable>
+                    <Text style={styles.username}>{ username }</Text>
+                    {/* <Image style={styles.rankImage} source={require('./../assets/rank.png')}/> */}
+                    <Text style={{fontSize: 25, margin: 40}}>mmr: { mmr }</Text>
+                    <Text style={{fontSize: 25, fontWeight: "bold", alignSelf:"center"}}>match history</Text>
+                </Animated.View>
                 <FlatList style ={styles.matchHistory} 
-        data={[
-            {Opponent: 'Devin', key: 1},
-            {Opponent: 'Dan', key: 2},
-            {Opponent: 'Dominic', key: 3},
-            {Opponent: 'Jackson', key: 4},
-            {Opponent: 'James', key: 5},
-            {Opponent: 'Joel', key: 6},
-            {Opponent: 'John', key: 7},
-            {Opponent: 'Jillian', key: 8},
-            {Opponent: 'Jimmy', key: 9},
-            {Opponent: 'Julie', key: 10},
-        ]}
-        renderItem={({item, index}) => 
-            <View style={{flex:1, flexDirection:'row'}}>
-                <Text style={[styles.item, {paddingRight:10}]}>{index + 1}.</Text>
-                <Text style={[styles.item ,{paddingRight:20}]}>{item.Opponent} vs Username</Text>
-                <Text style={[styles.item, {flex: 1, textAlign:'right'}]}>{item.Opponent}</Text>
-            </View>}/>
-            </ScrollView>
-        </SafeAreaView>
-    )
+                    data={ matchHistory }
+                    renderItem={({item}) => (
+                        <View style={{flex:1, flexDirection:'row'}}>
+                            <Text style={[styles.item ,{paddingRight:20}]}>{ item.opponent } vs { username }</Text>
+                            <Text style={[styles.item, {flex: 1, textAlign:'right'}]}>{ item.score }-{ item.opponentScore }</Text>
+                        </View>)}
+                />
+                </ScrollView>
+            </SafeAreaView>
+        )
+    } else {
+        // signed out
+        return (
+            <SafeAreaView style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <Text style={{fontSize: 25}}>sign in to see your profile!</Text>
+            </SafeAreaView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -55,7 +107,8 @@ const styles = StyleSheet.create({
         borderRadius: 150 / 2,
         overflow: "hidden",
         borderWidth: 3,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        marginTop: 40
     },
     rankImage: {
         marginTop: 50,
