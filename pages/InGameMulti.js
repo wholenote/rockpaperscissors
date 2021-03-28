@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
 import { Pages } from 'react-native-pages';
-import { firebase } from '../firebase/config';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
 
 
 const db = firebase.firestore();
@@ -12,9 +13,11 @@ export default function InGameMulti() {
     const [yourScore, setyourScore] = useState(0)
     const [yourMove, setyourMove] = useState(0)
     const [opponentMove, setopponentMove] = useState(0)
+    const [player1, setPlayer] = useState(true)
 
     useEffect(() => {
         var listener = ()=>{}
+        var waiting = true
         db.collection("matching").on
         var collection = db.collection("matching").get().then((snap) => {
             if (snap.size < 1) {
@@ -22,24 +25,11 @@ export default function InGameMulti() {
                 db.collection("matching").add({user: global.user.uid}).then(docRef => {
                     myMatchingId = docRef.id
                 })
-                listener = db.collection("matching")
-                    .onSnapshot((docs) => {
-                        docs.docs.forEach((doc) => {
-                            var opponentId = doc.data().user
-                            if (opponentId != global.user.uid) {
-                                db.collection("matching").doc(myMatchingId).delete()
-                                db.collection("matching").doc(doc.id).delete()
-                                listener()
-                                db.collection('game').add({opponent:opponentId, 
-                                                you: global.user.uid, 
-                                                opponentScore: 0,
-                                                yourScore: 0,
-                                                }).then(docRef => {
-                                    startGame(docRef.id)
-                                })
-                            }
-                        })
-                });
+                db.collection("users").doc(global.user.uid).onSnapshot((doc) => {
+                    if(doc.data().currentGame != null) {
+                        startGame(doc.data().currentGame)
+                    }
+                })
             }
             else {
                 var opponent = snap.docs[0]
@@ -48,12 +38,16 @@ export default function InGameMulti() {
                 if (opponentUserId != global.user.uid) {
                     db.collection("matching").doc(opponentDocId).delete()
                     listener()
-                    db.collection('game').add({opponent:opponentUserId, 
-                                                you: global.user.uid,
-                                                opponentScore: 0,
-                                                yourScore: 0, 
+                    db.collection('game').add({player2:opponentUserId, 
+                                                player1: global.user.uid,
+                                                player1Score: 0,
+                                                player2Score: 0,
+                                                player1Move: null,
+                                                player2Move: null  
                                                 }).then(docRef => {
                         startGame(docRef.id)
+                        db.collection("users").doc(global.user.uid).update({currentGame:docRef.id})
+                        db.collection("users").doc(opponentUserId).update({currentGame:docRef.id})
                     })
                 }
             }
@@ -71,67 +65,130 @@ export default function InGameMulti() {
         </View>
     }
 
+    db.collection('game').doc(gameId).get().then(docRef => {
+        console.log(docRef.data().player1)
+        if (docRef.data().player1 != global.user.uid){
+            setPlayer(false)
+        }
+    })
+
     const makeMove = () => {
+        console.log("MOVE")
         db.collection('game').doc(gameId).get().then(snap =>{
-            if (snap.data().opponentMove != null) {
-                checkWin(snap.data().opponentMove)
-            }
-            else {
-                console.log("waiting")
-                db.collection('game').doc(gameId).update({yourMove: yourMove})
-                var listenForMove = db.collection('game').doc(gameId).onSnapshot((doc) => {
-                    if(doc.data().opponentMove != null) {
-                        checkWin(doc.data().opponentMove)
+            if (player1) {
+                db.collection('game').doc(gameId).update({player1Move: yourMove})
+                if (snap.data().player2Move != null) {
+                    checkWin(snap.data().player2Move, true)
+                }
+                else {
+                    var listenForMove = db.collection('game').doc(gameId).onSnapshot((doc) => {
+                    if(doc.data().player2Move != null) {
+                        checkWin(doc.data().player2Move, true)
                         listenForMove()
                     }
-                })
+                    })  
+                }
+            }
+            else {
+                db.collection('game').doc(gameId).update({player2Move: yourMove})
+                if (snap.data().player1Move != null) {
+                    checkWin(snap.data().player1Move, false)
+                }
+                else {
+                    var listenForMove = db.collection('game').doc(gameId).onSnapshot((doc) => {
+                    if(doc.data().player1Move != null) {
+                        checkWin(doc.data().player1Move, false)
+                        listenForMove()
+                    }
+                    })  
+                }
             }
         })
-        console.log(yourMove)
     }
 
-    const checkWin = (move) => {
-        switch (move) {
+    const checkWin = (move, player1) => {
+        if (player1) {
+            switch (move) {
             case 0: // Paper
                 setopponentMove(require('./../assets/paper.png'))
                 if (yourMove == 2) {
                     setyourScore(yourScore + 1)
-                    db.collection('game').doc(gameId).update({yourScore: yourScore + 1})
+                    db.collection('game').doc(gameId).update({player1Score: yourScore + 1})
                 }
                 else if (yourMove == 1) {
                     setopponentScore(opponentScore + 1)
-                    db.collection('game').doc(gameId).update({opponentScore: opponentScore + 1})
+                    db.collection('game').doc(gameId).update({player2Score: opponentScore + 1})
                 }
                 break;
             case 1: // Rock
                 setopponentMove(require('./../assets/rock.png'))
                 if (yourMove == 0) {
                     setyourScore(yourScore + 1)
-                    db.collection('game').doc(gameId).update({yourScore: yourScore + 1})
+                    db.collection('game').doc(gameId).update({player1Score: yourScore + 1})
                 }
                 else if (yourMove == 2) {
                     setopponentScore(opponentScore + 1)
-                    db.collection('game').doc(gameId).update({opponentScore: opponentScore + 1})
+                    db.collection('game').doc(gameId).update({player2Score: opponentScore + 1})
                 }
                 break;
             case 2:// Scissors
                 setopponentMove(require('./../assets/scissor.png'))
                 if (yourMove == 1) {
                     setyourScore(yourScore + 1)
-                    db.collection('game').doc(gameId).update({yourScore: yourScore + 1})
+                    db.collection('game').doc(gameId).update({player1Score: yourScore + 1})
                 }
                 else if (yourMove == 0) {
                     setopponentScore(opponentScore + 1)
-                    db.collection('game').doc(gameId).update({opponentScore: opponentScore + 1})
+                    db.collection('game').doc(gameId).update({player2Score: opponentScore + 1})
                 }
                 break;
+            }
         }
-        db.collection('game').doc(gameId).update({yourMove: null, opponentMove: null})
+        else {
+            switch (move) {
+            case 0: // Paper
+                setopponentMove(require('./../assets/paper.png'))
+                if (yourMove == 2) {
+                    setyourScore(yourScore + 1)
+                    db.collection('game').doc(gameId).update({player2Score: yourScore + 1})
+                }
+                else if (yourMove == 1) {
+                    setopponentScore(opponentScore + 1)
+                    db.collection('game').doc(gameId).update({player1Score: opponentScore + 1})
+                }
+                break;
+            case 1: // Rock
+                setopponentMove(require('./../assets/rock.png'))
+                if (yourMove == 0) {
+                    setyourScore(yourScore + 1)
+                    db.collection('game').doc(gameId).update({player2Score: yourScore + 1})
+                }
+                else if (yourMove == 2) {
+                    setopponentScore(opponentScore + 1)
+                    db.collection('game').doc(gameId).update({player1Score: opponentScore + 1})
+                }
+                break;
+            case 2:// Scissors
+                setopponentMove(require('./../assets/scissor.png'))
+                if (yourMove == 1) {
+                    setyourScore(yourScore + 1)
+                    db.collection('game').doc(gameId).update({player2Score: yourScore + 1})
+                }
+                else if (yourMove == 0) {
+                    setopponentScore(opponentScore + 1)
+                    db.collection('game').doc(gameId).update({player1Score: opponentScore + 1})
+                }
+                break;
+            }
+        }
+        db.collection('game').doc(gameId).update({player1Move: null, player2Move: null})
     }
+
+
     return (
         <View style={styles.container}>
             <View style={styles.playerView}>
-                <PlayerView top={0} name='Player 2' image={'./../assets/paper.png'} score={opponentScore}></PlayerView>
+                <PlayerView top={0} name='Player 2' image={opponentMove} score={opponentScore} ></PlayerView>
             </View>
             <View style={{borderBottomColor: 'black', borderBottomWidth: 10}}/>
             <View style={styles.playerView}>
