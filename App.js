@@ -45,18 +45,22 @@ function HomeScreen() {
           let iconName;
 
           if (route.name === 'Home') {
+            color = focused ? 'red' : 'gray'
             return <AntDesign name={"home"} size={size} color={color} />;
           } else if (route.name === 'Profile') {
+            color = focused ? 'blue' : 'gray'
             return <AntDesign name={"profile"} size={size} color={color} />;
           } else if (route.name === 'Leaderboard') {
+            color = focused ? 'yellow' : 'gray'
             return <MaterialIcons name={"leaderboard"} size={size} color={color} />;
           } else if (route.name === 'About') {
+            color = focused ? 'orange' : 'gray'
             return <FontAwesome name={"hand-stop-o"} size={size} color={color} />;
           }
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'red',
+        activeTintColor: 'gray',
         inactiveTintColor: 'gray',
       }}
     >
