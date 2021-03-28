@@ -79,6 +79,13 @@ export default function Home({ navigation}) {
                     >
                         <Text style={styles.buttonText}>back</Text>
                     </Pressable>
+                    <View style={{flex: 1, width: "100%"}}>
+                        <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
+                            <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                            <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                        </View>
+                        <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
+                    </View> 
                 </SafeAreaView>
             )
         }
@@ -176,6 +183,13 @@ export default function Home({ navigation}) {
                     >
                         <Text style={styles.buttonText}>back</Text>
                     </Pressable>
+                    <View style={{flex: 1, width: "100%"}}>
+                        <View style={{flex: 1, width: "100%", flexDirection:'row'}}>
+                            <Image source={require('./../assets/scissor.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                            <Image source={require('./../assets/paper.png')} style={{width: "50%", resizeMode: 'contain', marginTop: 50}}/>
+                        </View>
+                        <Image source={require('./../assets/rock.png')} style={{width: "70%", resizeMode: 'contain'}}/>
+                    </View> 
                 </SafeAreaView>
             )
         }
